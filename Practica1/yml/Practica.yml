@@ -1,0 +1,94 @@
+---
+- name: Configuración de Servidor Web y Base de Datos
+  hosts: all
+  become: yes
+  tasks:
+    - name: Actualizar lista de paquetes
+      apt:
+        update_cache: yes
+      tags: [packages]
+
+    - name: Instalar Apache2
+      apt:
+        name: apache2
+        state: present
+      tags: [packages]
+
+    - name: Instalar MySQL
+      apt:
+        name: mysql-server
+        state: present
+      tags: [packages]
+
+    - name: Instalar PHP y módulos
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - php
+        - libapache2-mod-php
+        - php-mysql
+      tags: [packages]
+
+    - name: Crear directorio para el sitio web
+      file:
+        path: /var/www/html/cvaltierra.com
+        state: directory
+        owner: www-data
+        group: www-data
+      tags: [web]
+
+    - name: Copiar archivos HTML y PHP
+      copy:
+        src: "{{ item }}"
+        dest: /var/www/html/cvaltierra.com/
+      with_items:
+        - /ansible/etc/index.html
+        - /ansible/etc/mostrar.php
+        - /ansible/etc/registrar.php
+      tags: [web]
+
+    - name: Crear VirtualHost para CValtierra.com
+      copy:
+        src: cvaltierra.com.conf
+        dest: /etc/apache2/sites-available/
+      notify: Habilitar VirtualHost
+      tags: [web]
+
+    - name: Crear base de datos y usuario MySQL
+      mysql_db:
+        name: db
+        state: present
+      tags: [database]
+
+    - name: Crear usuario y contraseña en MySQL
+      mysql_user:
+        name: vlca
+        password: 37510
+        priv: "vlca.*:ALL"
+        state: present
+      tags: [database]
+
+    - name: Importar esquema de base de datos
+      mysql_db:
+        name: db
+        state: import
+        target: /etc/ansible/esquema.sql
+      tags: [database]
+
+    - name: Eliminar cuentas anónimas y base de datos de prueba
+      mysql_db:
+        name: "{{ item }}"
+        state: absent
+      with_items:
+        - test
+        - mysql.session
+        - mysql.sys
+        - performance_schema
+      tags: [database]
+
+    - name: Configurar Firewall para permitir tráfico HTTP
+      ufw:
+        rule: allow
+        port: 80/tcp
+      tags: [firewall]

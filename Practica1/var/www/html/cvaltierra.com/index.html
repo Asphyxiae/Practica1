@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Usuario</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        form {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        button[type="reset"] {
+            background-color: #ff0000; /* Rojo */
+            color: #fff;
+            padding: 10px 20px;
+ border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button[type="reset"]:hover {
+            background-color: #cc0000; /* Rojo más oscuro al pasar el cursor */
+        }
+
+        button#eliminarRegistros {
+            background-color: #ff0000; /* Rojo */
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button#eliminarRegistros:hover {
+            background-color: #cc0000; /* Rojo más oscuro al pasar el cursor */
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+            border-radius: 3px;
+        }
+
+        .creator-info {
+            font-style: italic;
+            color: #777;
+            font-size: 14px;
+            position: absolute;
+            bottom: 10px;
+left: 10px;
+        }
+
+        .current-time {
+            font-size: 14px;
+            position: absolute;
+            bottom: 30px;
+            left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Registro de Usuario</h1>
+    <div class="container">
+        <form action="registrar.php" method="POST">
+            <label for="info">Ingrese Información:</label>
+            <input type="text" id="info" name="info" required>
+            <button type="submit">Registrar</button>
+            <button type="button" id="eliminarRegistros">Eliminar Registros</button>
+        </form>
+        <h2>Información Registrada:</h2>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Fecha de Registro</th>
+            </tr>
+            <tbody id="table-body"></tbody>
+        </table>
+        <p class="creator-info">Creado por: Carlos Andres Valtierra Lopez</p>
+        <p class="current-time" id="current-time"></p>
+
+        <script>
+            // Función para mostrar la fecha y hora actual
+            function mostrarFechaHora() {
+                const elementoFechaHora = document.getElementById("current-time");
+                const fechaHora = new Date();
+                const formatoFechaHora = fechaHora.toLocaleString();
+                elementoFechaHora.textContent = formatoFechaHora;
+            }
+
+            // Función para cargar y mostrar los datos en la tabla
+            async function cargarDatos() {
+                const response = await fetch('mostrar.php');
+                const data = await response.json();
+                const tableBody = document.getElementById('table-body');
+
+                if (data && data.length > 0) {
+                    data.forEach(item => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${item.id}</td>
+                            <td>${item.nombre}</td>
+                            <td>${item.fecha_registro}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                } else {
+                    tableBody.innerHTML = '<tr><td colspan="3">No hay usuarios registrados.</td></tr>';
+                }
+            }
+
+            // Función para eliminar registros
+            async function eliminarRegistros() {
+                const response = await fetch('eliminar.php', {
+                    method: 'POST'
+                });
+                const resultado = await response.text();
+                alert(resultado);
+                cargarDatos(); // Actualizar la tabla después de eliminar registros
+            }
+
+            // Llamar a la función para mostrar la fecha y hora actual al cargar la página
+            mostrarFechaHora();
+
+            // Llamar a la función para cargar y mostrar los datos en la tabla
+            cargarDatos();
+
+            // Asociar la función de eliminar registros al botón
+            const botonEliminarRegistros = document.getElementById('eliminarRegistros');
+            botonEliminarRegistros.addEventListener('click', eliminarRegistros);
+        </script>
+    </div>
+</body>
+</html>
+
+

@@ -1,0 +1,35 @@
+---
+- name: Configurar usuario MySQL
+  hosts: all
+  become: yes
+  tasks:
+    - name: Instalar el cliente MySQL
+      apt:
+        name: mysql-client
+        state: present
+
+    - name: Crear usuario MySQL
+      mysql_user:
+        name: vlca
+        host: "{{ ansible_hostname }}"
+        password: 37510
+        priv: '*.*:ALL'
+        state: present
+
+    - name: Crear la base de datos
+      mysql_db:
+        name: db
+        state: present
+
+    - name: Crear la tabla usuarios
+      mysql_query:
+        db: db
+        login_user: vlca 
+        login_password: 37510 
+        query: |
+          CREATE TABLE usuarios (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            nombre VARCHAR(255) NOT NULL,
+            fecha_registro VARCHAR(255) NOT NULL
+          );
+
