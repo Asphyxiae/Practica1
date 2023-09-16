@@ -1,8 +1,7 @@
-¡Claro! Aquí tienes un resumen de tu redmi con el título y el contenido que has proporcionado:
 
 ---
 
-# Redmi: Práctica - Instalación de un Servidor con Ansible
+# Práctica - Instalación de un Servidor con Ansible
 
 ## Instala tu Aplicación Web con Ansible
 
@@ -36,4 +35,4 @@ Recuerda que la presentación y profesionalismo del sitio web son esenciales par
 
 ---
 
-Este redmi proporciona una descripción completa de tu tarea y los objetivos que deseas lograr utilizando Ansible para automatizar la instalación de tu aplicación web. Puedes personalizar aún más este redmi según tus necesidades y agregar detalles específicos de tu implementación.
+Este redmi proporciona una descripción completa de tu tarea y los objetivos que deseas lograr utilizando Ansible para automatizar la instalación de tu aplicación web.
