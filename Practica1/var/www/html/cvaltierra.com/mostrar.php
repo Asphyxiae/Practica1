@@ -1,9 +1,9 @@
 <?php
 // Conecta a la base de datos MySQL (asegúrate de configurar los datos de conexión)
-$servidor = "192.168.100.112"; // Cambia esto si tu servidor MySQL no está en localhost
+$servidor = "192.168.100.112"; //
 $usuario = "vlca";
 $contrasena = "37510";
-$basededatos = "db"; // Nombre de la base de datos que creaste
+$basededatos = "db"; 
 
 $conexion = new mysqli($servidor, $usuario, $contrasena, $basededatos);
 
