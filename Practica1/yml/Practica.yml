@@ -54,7 +54,14 @@
         dest: /etc/apache2/sites-available/
       notify: Habilitar VirtualHost
       tags: [web]
-
+      
+     - name: Crear VirtualHost para app.cvaltierra.com
+      copy:
+        src: app.cvaltierra.com.conf
+        dest: /etc/apache2/sites-available/
+      notify: Habilitar VirtualHost
+      tags: [web]
+      
     - name: Crear base de datos y usuario MySQL
       mysql_db:
         name: db
