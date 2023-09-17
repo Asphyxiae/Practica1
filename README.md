@@ -18,10 +18,10 @@ Utilizar Ansible para automatizar la instalación de paquetes y configuraciones 
 **Pasos a seguir:**
 1. Instalación de paquetes necesarios.
 2. Creación de una página web personalizada.
-   - La página se verá en el dominio www.[primera letra del nombre][apellido].com.
+   - La página se verá en el dominio www.cvaltierra.com.
    - Acceso vía dirección IP mostrará la misma página.
 3. Creación de un nuevo VirtualHost en el servidor web con root de documentos específico.
-   - La aplicación web se desplegará en el dominio app.[primera letra del nombre][apellido].com.
+   - La aplicación web se desplegará en el dominio app.cvaltierra.com.
 4. Habilitación del nuevo VirtualHost.
 5. Configuración de la contraseña para el usuario administrador de la base de datos.
 6. Carga del esquema de bases de datos en el servidor.
@@ -31,7 +31,10 @@ Utilizar Ansible para automatizar la instalación de paquetes y configuraciones 
 
 Una vez que el playbook se ejecute por completo, tendrás un entorno web completamente funcional y atractivo de acuerdo a tus especificaciones y variables de configuración.
 
-Recuerda que la presentación y profesionalismo del sitio web son esenciales para brindar una buena experiencia a los usuarios.
+Funcionalidad: https://flip.com/s/oB7zwbcydezZ
+
+Hecho por: Valtierra Lopez Carlos Andres.
+
 
 ---
 
